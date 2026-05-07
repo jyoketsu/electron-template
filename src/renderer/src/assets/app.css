@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+/* Tailwind v4 用 @theme 注册自定义 token */
+@theme {
+  --color-primary: #028399;
+  --color-primary-hover: #01687a;
+  --color-primary-text: #9FEAF9;
+}
+
 body {
   user-select: none;
 }

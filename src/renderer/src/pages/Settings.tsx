@@ -24,7 +24,7 @@ export default function Settings() {
           <div className="flex gap-2">
             {(['grsai', 'openai'] as const).map((mode) => (
               <button key={mode} onClick={() => setApiMode(mode)}
-                className={`px-4 py-1.5 rounded-lg text-xs border transition-colors ${apiMode === mode ? 'bg-[#3d5a3e] text-white border-[#3d5a3e]' : 'bg-white text-stone-500 border-stone-200 hover:border-stone-400'}`}>
+                className={`px-4 py-1.5 rounded-lg text-xs border transition-colors ${apiMode === mode ? 'bg-primary text-white border-primary' : 'bg-white text-stone-500 border-stone-200 hover:border-stone-400'}`}>
                 {mode === 'openai' ? 'OpenAI 官方' : 'Grsai'}
               </button>
             ))}

@@ -111,7 +111,7 @@ async function callOpenai(params: GenerateParams) {
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 1280,
+    width: 960,
     height: 800,
     minWidth:960,
     minHeight:670,
@@ -217,9 +217,20 @@ app.whenReady().then(() => {
   })
 
   ipcMain.handle('image:save', async (_event, { b64, outputDir }: { b64: string; outputDir: string }) => {
-    const filename = `output_${Date.now()}.png`
+    // 兼容完整 data URL（"data:image/png;base64,xxx"）和纯 base64 两种格式
+    // 同时从 MIME 类型自动推断文件扩展名（image/jpeg → jpg，image/svg+xml → svg，其余取 / 后的部分）
+    let pureB64 = b64
+    let ext = 'png'
+    if (b64.includes(',')) {
+      const header = b64.split(',')[0]           // "data:image/jpeg;base64"
+      pureB64 = b64.split(',')[1]
+      const mime = header.match(/:(.*?);/)?.[1]  // "image/jpeg"
+      const sub = mime?.split('/')?.[1] ?? 'png' // "jpeg" / "svg+xml" / ...
+      ext = sub === 'jpeg' ? 'jpg' : sub === 'svg+xml' ? 'svg' : sub
+    }
+    const filename = `output_${Date.now()}.${ext}`
     const dest = join(outputDir, filename)
-    await writeFile(dest, Buffer.from(b64, 'base64'))
+    await writeFile(dest, Buffer.from(pureB64, 'base64'))
     return dest
   })
 

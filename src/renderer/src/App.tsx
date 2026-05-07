@@ -1,13 +1,9 @@
 import { HashRouter, Routes, Route } from 'react-router-dom'
 import { Sidebar } from '@/components/Sidebar'
-import Studio from '@/pages/Studio'
-import Apps from '@/pages/Apps'
-import AppOutfitSwap from '@/pages/AppOutfitSwap'
-import Tasks from '@/pages/Tasks'
-import History from '@/pages/History'
-import Templates from '@/pages/Templates'
-import Settings from '@/pages/Settings'
 import Home from './pages/Home'
+import Examples from '@renderer/pages/examples'
+import Settings from '@/pages/Settings'
+
 
 function App(): React.JSX.Element {
   return (
@@ -16,12 +12,8 @@ function App(): React.JSX.Element {
         <Sidebar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/studio" element={<Studio />} />
-          <Route path="/apps" element={<Apps />} />
-          <Route path="/apps/outfit-swap" element={<AppOutfitSwap />} />
-          <Route path="/tasks" element={<Tasks />} />
-          <Route path="/history" element={<History />} />
-          <Route path="/templates" element={<Templates />} />
+          {/* /examples/*，告诉 React Router 这个路由还有子路径需要匹配 */}
+          <Route path="/examples/*" element={<Examples />} />
           <Route path="/settings" element={<Settings />} />
         </Routes>
       </div>
