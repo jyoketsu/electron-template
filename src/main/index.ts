@@ -1,6 +1,7 @@
 import { app, shell, BrowserWindow, ipcMain, dialog, protocol } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
+import { autoUpdater } from 'electron-updater'
 import icon from '../../resources/icon.png?asset'
 import { writeFile, readFile, unlink } from 'fs/promises'
 import { existsSync } from 'fs'
@@ -241,6 +242,8 @@ app.whenReady().then(() => {
   })
 
   createWindow()
+
+  if (!is.dev) autoUpdater.checkForUpdatesAndNotify()
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the

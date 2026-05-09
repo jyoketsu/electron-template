@@ -43,6 +43,9 @@ jobs:
       - name: build-mac
         if: matrix.os == 'macos-latest'
         run: pnpm run build:mac
+        env:
+          # 避免 CI 里找不到签名证书时报警告
+          CSC_IDENTITY_AUTO_DISCOVERY: false
 
       - name: build-win
         if: matrix.os == 'windows-latest'
