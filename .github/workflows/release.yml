@@ -28,7 +28,10 @@ jobs:
           version: latest
 
       - name: Install Dependencies
-        run: pnpm install
+        run: pnpm install --ignore-scripts
+
+      - name: Build native deps
+        run: pnpm exec electron-builder install-app-deps
 
       - name: build-linux
         if: matrix.os == 'ubuntu-latest'
