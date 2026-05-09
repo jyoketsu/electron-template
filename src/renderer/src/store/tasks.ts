@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { TaskRecord, HistoryRecord } from '@/types'
+import { TaskRecord } from '@/types'
 
 interface GenerateParams {
   outputDir: string
@@ -14,7 +14,7 @@ interface TasksState {
   submitGenerate: (params: GenerateParams) => void
 }
 
-export const useTasksStore = create<TasksState>((set, get) => ({
+export const useTasksStore = create<TasksState>((set) => ({
   tasks: [],
   addTask: (task) => set((s) => ({ tasks: [task, ...s.tasks] })),
   updateTask: (id, patch) => set((s) => ({ tasks: s.tasks.map((t) => t.id === id ? { ...t, ...patch } : t) })),
