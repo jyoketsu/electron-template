@@ -33,5 +33,4 @@ $ pnpm build:mac
 $ pnpm build:linux
 ```
 
-- mac 未签名：用户首次安装后可能提示"已损坏"，执行 xattr -cr /Applications/Electron\ 
-  Template.app 即可
+- mac 未签名：用户首次安装后可能提示"已损坏"，执行 `xattr -cr /Applications/Electron\ Template.app` 即可
