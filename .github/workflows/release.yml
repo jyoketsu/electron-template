@@ -36,20 +36,23 @@ jobs:
       - name: Build native deps
         run: pnpm exec electron-builder install-app-deps
 
+      - name: Check ms module
+        run: ls node_modules | grep "^ms$" || echo "ms not found in root"
+
       - name: build-linux
         if: matrix.os == 'ubuntu-latest'
-        run: pnpm run build:linux --publish never
+        run: pnpm run build:linux
 
       - name: build-mac
         if: matrix.os == 'macos-latest'
-        run: pnpm run build:mac --publish never
+        run: pnpm run build:mac
         env:
           # 避免 CI 里找不到签名证书时报警告
           CSC_IDENTITY_AUTO_DISCOVERY: false
 
       - name: build-win
         if: matrix.os == 'windows-latest'
-        run: pnpm run build:win --publish never
+        run: pnpm run build:win
 
       - name: release
         uses: softprops/action-gh-release@v1
