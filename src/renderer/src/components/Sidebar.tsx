@@ -5,7 +5,7 @@ import { HouseIcon, SquareChartGanttIcon, SettingsIcon } from 'lucide-react'
 
 const NAV_ITEMS = [
   { to: '/', label: '首页', icon: HouseIcon, exact: true },
-  { to: '/examples/components', label: '示例', icon: SquareChartGanttIcon, activePrefix: '/examples' },
+  { to: '/examples/ipc-renderer', label: '示例', icon: SquareChartGanttIcon, activePrefix: '/examples' },
   { to: '/settings', label: '设置', icon: SettingsIcon },
 ]
 

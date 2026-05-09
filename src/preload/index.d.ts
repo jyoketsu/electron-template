@@ -2,6 +2,9 @@ import { ElectronAPI } from '@electron-toolkit/preload'
 
 declare global {
   interface Window {
+    test: {
+      ping: () => Promise<string>
+    }
     electron: ElectronAPI
     api: {
       openDirectory: () => Promise<string | null>

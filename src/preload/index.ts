@@ -1,6 +1,10 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 
+const test = {
+  ping: () => ipcRenderer.invoke('ping'),
+}
+
 const api = {
   openDirectory: (): Promise<string | null> => ipcRenderer.invoke('dialog:openDirectory'),
   generateImage: (params: unknown): Promise<{ ok: boolean; data?: unknown; error?: string }> =>
@@ -15,6 +19,7 @@ const api = {
 
 if (process.contextIsolated) {
   try {
+    contextBridge.exposeInMainWorld('test', test)
     contextBridge.exposeInMainWorld('electron', electronAPI)
     contextBridge.exposeInMainWorld('api', api)
   } catch (error) {
@@ -25,4 +30,6 @@ if (process.contextIsolated) {
   window.electron = electronAPI
   // @ts-ignore (define in dts)
   window.api = api
+  // @ts-ignore (define in dts)
+  window.test = test
 }

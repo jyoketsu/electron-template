@@ -113,8 +113,8 @@ function createWindow(): void {
   const mainWindow = new BrowserWindow({
     width: 960,
     height: 800,
-    minWidth:960,
-    minHeight:670,
+    minWidth: 960,
+    minHeight: 670,
     show: false,
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
@@ -168,7 +168,13 @@ app.whenReady().then(() => {
   })
 
   // IPC test
-  ipcMain.on('ping', () => console.log('pong'))
+  /**
+   * ipcMain.on vs ipcMain.handle
+   * 核心区别：有没有返回值给渲染进程。
+   * ipcMain.handle('ping', ...)，对应的渲染进程调用方式应该是 ipcRenderer.invoke('ping')
+   * ipcMain.on('ping', ...)，对应的渲染进程调用方式应该是 ipcRenderer.send('ping')
+   */
+  ipcMain.handle('ping', () => 'pong')
 
   ipcMain.handle('dialog:openDirectory', async () => {
     const { canceled, filePaths } = await dialog.showOpenDialog({ properties: ['openDirectory'] })
@@ -187,7 +193,7 @@ app.whenReady().then(() => {
     const records = await readHistory()
     const target = records.find((r) => r.id === id)
     if (target?.imagePath && existsSync(target.imagePath)) {
-      await unlink(target.imagePath).catch(() => {})
+      await unlink(target.imagePath).catch(() => { })
     }
     await writeHistory(records.filter((r) => r.id !== id))
   })

@@ -2,6 +2,7 @@ import { NavLink } from 'react-router-dom'
 import { cn } from '@/lib/utils'
 
 const NAV_ITEMS = [
+  { to: '/examples/ipc-renderer', label: '在进程之间通信' },
   { to: '/examples/components', label: '组件示例' },
   { to: '/examples/choose-image', label: '选择图片示例' },
 ]
