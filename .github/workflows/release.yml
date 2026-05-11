@@ -25,36 +25,26 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: latest
-
       - name: Install Dependencies
-        run: pnpm install --config.approve-builds=electron,esbuild,electron-winstaller
-        env:
-          ELECTRON_SKIP_BINARY_DOWNLOAD: 1
+        run: npm install --ignore-scripts
 
       - name: Build native deps
-        run: pnpm exec electron-builder install-app-deps
-
-      - name: Check ms module
-        run: ls node_modules | grep "^ms$" || echo "ms not found in root"
+        run: npx electron-builder install-app-deps
 
       - name: build-linux
         if: matrix.os == 'ubuntu-latest'
-        run: pnpm run build:linux
+        run: npm run build:linux
 
       - name: build-mac
         if: matrix.os == 'macos-latest'
-        run: pnpm run build:mac
+        run: npm run build:mac
         env:
           # 避免 CI 里找不到签名证书时报警告
           CSC_IDENTITY_AUTO_DISCOVERY: false
 
       - name: build-win
         if: matrix.os == 'windows-latest'
-        run: pnpm run build:win
+        run: npm run build:win
 
       - name: release
         uses: softprops/action-gh-release@v1
