@@ -30,11 +30,10 @@ jobs:
         with:
           version: latest
 
-      - name: Check npmrc
-        run: cat .npmrc
-
       - name: Install Dependencies
-        run: pnpm install --ignore-scripts
+        run: pnpm install
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: 1
 
       - name: Build native deps
         run: pnpm exec electron-builder install-app-deps
