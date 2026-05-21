@@ -147,14 +147,30 @@ function createWindow(): void {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 protocol.registerSchemesAsPrivileged([
-  { scheme: 'localfile', privileges: { secure: true, standard: true, supportFetchAPI: true } }
+  {
+    scheme: 'localfile', privileges: {
+      secure: true,
+      // standard: true,
+      supportFetchAPI: true
+    }
+  }
 ])
 
 app.whenReady().then(() => {
   protocol.registerFileProtocol('localfile', (request, callback) => {
-    let filePath = decodeURIComponent(request.url.replace('localfile://', ''))
-    // Windows: URL becomes /C:/path after stripping scheme — remove the extra leading slash
-    if (filePath.match(/^\/[A-Za-z]:\//)) filePath = filePath.slice(1)
+    let filePath = decodeURIComponent(request.url.slice('localfile://'.length))
+    // logLine(`[raw] url=${request.url} filePath=${filePath}`)
+
+    if (/^\/[A-Za-z]:[\\/]/.test(filePath)) {
+      filePath = filePath.slice(1)
+    }
+    filePath = filePath.replace(/\\/g, '/')
+
+    if (filePath.includes('gallery/gpt-image-2')) {
+      const base = is.dev ? process.cwd() : join(process.resourcesPath, 'app.asar.unpacked')
+      filePath = join(base, filePath)
+    }
+    // logLine(`[resolved] filePath=${filePath} exists=${existsSync(filePath)}`)
     callback({ path: filePath })
   })
 

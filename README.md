@@ -22,6 +22,13 @@ $ pnpm dev
 
 ### Build
 
+准备一张 1024x1024 的 PNG，用 electron-icon-builder 一键生成三个平台所需格式：
+
+```bash
+$ npx electron-icon-builder --input=icon.png --output=build
+```
+会自动生成 icon.ico、icon.icns、以及各尺寸 PNG。
+
 ```bash
 # For windows
 $ pnpm build:win
